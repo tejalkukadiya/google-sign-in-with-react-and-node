@@ -11,12 +11,6 @@ class App extends React.Component {
 
     }
   }
-  handleGooglesignin(e){
-    console.log("google sign in");
-  }
-  componentDidMount(){
-
-  }
   handleScriptCreate() {
     this.setState({ scriptLoaded: false })
   }
@@ -30,20 +24,12 @@ class App extends React.Component {
     this.setState({ scriptLoaded: true,isLoadScript:false })
     window.gapi.load('auth2', () => {
 
-      window.gapi.auth2.init({ client_id: '403338270635-i1g4gljjqiquafv8nv58el58387mi1co.apps.googleusercontent.com' }).then(() => {
+      window.gapi.auth2.init({ client_id: 'YOUR Client Id' }).then(() => {
 
           // DO NOT ATTEMPT TO RENDER BUTTON UNTIL THE 'Init' PROMISE RETURNS
           this.renderButton();
 
       });
-    // console.log(gapi);
-  //   window.gapi.load('auth2', async function() {
-  //    let authData = await window.gapi.auth2.init({
-  //       client_id:
-  //         '403338270635-i1g4gljjqiquafv8nv58el58387mi1co.apps.googleusercontent.com',
-  //     })
-  //     console.log(authData)
-  // });
   })
 }
 renderButton(){
@@ -78,23 +64,7 @@ onSignIn(googleUser) {
   render(){
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      {/* <div className="g-signin2" data-onsuccess="onSignIn"></div> */}
       <div id="myGoogleButton"></div>
-      {/* <a className="App-link" onClick={this.handleGooglesignin.bind(this)}> Sign in with Google</a> */}
      {this.state.isLoadScript!==false?
       <Script
           url="https://apis.google.com/js/platform.js" 

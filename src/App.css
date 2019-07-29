@@ -22,6 +22,10 @@
 .App-link {
   color: #61dafb;
 }
+.App #myGoogleButton{
+  margin-left: 370px;
+  margin-top: 80px;
+}
 
 @keyframes App-logo-spin {
   from {

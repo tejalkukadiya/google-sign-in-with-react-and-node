@@ -2,7 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Script from 'react-load-script';
-
+import { toast } from 'react-toastify';
+const axios = require('axios');
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -11,6 +12,31 @@ class App extends React.Component {
 
     }
   }
+  notify = () => {
+    console.log("hererer")
+    toast("Default Notification !");
+    toast.success("Success Notification !", {
+      position: toast.POSITION.TOP_CENTER
+    });
+
+    // toast.error("Error Notification !", {
+    //   position: toast.POSITION.TOP_LEFT
+    // });
+
+    // toast.warn("Warning Notification !", {
+    //   position: toast.POSITION.BOTTOM_LEFT
+    // });
+
+    // toast.info("Info Notification !", {
+    //   position: toast.POSITION.BOTTOM_CENTER
+    // });
+
+    // toast("Custom Style Notification with css class!", {
+    //   position: toast.POSITION.BOTTOM_RIGHT,
+    //   className: 'foo-bar'
+    // });
+  }
+
   handleScriptCreate() {
     this.setState({ scriptLoaded: false })
   }
@@ -24,7 +50,7 @@ class App extends React.Component {
     this.setState({ scriptLoaded: true,isLoadScript:false })
     window.gapi.load('auth2', () => {
 
-      window.gapi.auth2.init({ client_id: 'YOUR Client Id' }).then(() => {
+      window.gapi.auth2.init({ client_id: '403338270635-i1g4gljjqiquafv8nv58el58387mi1co.apps.googleusercontent.com' }).then(() => {
 
           // DO NOT ATTEMPT TO RENDER BUTTON UNTIL THE 'Init' PROMISE RETURNS
           this.renderButton();
@@ -44,19 +70,35 @@ renderButton(){
   });
 }
 onSignIn(googleUser) {
-  console.log(googleUser)
-  // Useful data for your client-side scripts:
   var profile = googleUser.getBasicProfile();
-  console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-  console.log('Full Name: ' + profile.getName());
-  console.log('Given Name: ' + profile.getGivenName());
-  console.log('Family Name: ' + profile.getFamilyName());
-  console.log("Image URL: " + profile.getImageUrl());
-  console.log("Email: " + profile.getEmail());
+  // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+  // console.log('Full Name: ' + profile.getName());
+  // console.log('Given Name: ' + profile.getGivenName());
+  // console.log('Family Name: ' + profile.getFamilyName());
+  // console.log("Image URL: " + profile.getImageUrl());
+  // console.log("Email: " + profile.getEmail());
 
   // The ID token you need to pass to your backend:
+  var userId = profile.getId();
+  var full_Name = profile.getName();
+  var profile_image =profile.getImageUrl();
+   var emailId = profile.getEmail();
   var id_token = googleUser.getAuthResponse().id_token;
-  console.log("ID Token: " + id_token);
+  var dataTosend ={
+    userId:userId,
+    full_Name:full_Name,
+    profile_image:profile_image,
+    email:emailId,
+    user_token:id_token,
+  }
+  axios.post('http://localhost:3001/api/storeUsers',dataTosend)
+  .then(res => 
+    {
+      console.log(res);
+      alert("data added successfully");
+
+    }
+  )
 }
 
 
